@@ -1,0 +1,7 @@
+#Fri Apr 14 17:17:01 CST 2017
+base.0=C\:\\Users\\lhy28\\Documents\\repo\\Easync\\EasyncSetupTool\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_90afe0e5b6ea86f75a6bc9f4667fc272dc15ec2f
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=C\:\\Users\\lhy28\\Documents\\repo\\Easync\\EasyncSetupTool\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_53a08b3a779a248e63f674bc4799d61d1fcfd3a9\\classes.dex
+base.1=C\:\\Users\\lhy28\\Documents\\repo\\Easync\\EasyncSetupTool\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_53a08b3a779a248e63f674bc4799d61d1fcfd3a9
+file.0=C\:\\Users\\lhy28\\Documents\\repo\\Easync\\EasyncSetupTool\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_90afe0e5b6ea86f75a6bc9f4667fc272dc15ec2f\\classes.dex

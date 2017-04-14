@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Easync Setup Tool</string>
+    <string name="web_server">网页服务器</string>
+    <string name="socket_server">Socket Server</string>
+    <string name="action_exit">退出</string>
+    <string name="settings">设置</string>
+    <string name="receiveDataFormat">接收数据类型</string>
+    <string name="integer">十进制</string>
+    <string name="hexadecimal">十六进制</string>
+    <string name="binary">二进制</string>
+    <string name="text">字符</string>
+    <string name="delimiter">换行</string>
+    <string name="delimiterNone">换行 - 无</string>
+    <string name="delimiterNewLine">换行 - 换行符</string>
+    <string name="delimiterSpace">换行 - 空格</string>
+    <string name="connected">已连接</string>
+    <string name="disconnected">已断开连接</string>
+	<string name="selectHIDDevice">选择设备</string>
+	<string name="send">发送</string>
+	<string name="clear">清除</string>
+	<string name="sendText">发送文本</string>
+	<string name="sendData">发送数据Bytes/0xAB/#AB</string>
+</resources>
