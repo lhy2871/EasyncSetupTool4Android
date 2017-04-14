@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.appspot.usbhidterminal.core.Consts;
 import com.appspot.usbhidterminal.core.events.DeviceAttachedEvent;
@@ -191,7 +192,13 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 	}
 
 	public void onEvent(USBDataReceiveEvent event) {
-		mLog(event.getData() + " \n接收到 " + event.getBytesCount() + " 位", true);
+		//mLog(event.getData() + " \n接收到 " + event.getBytesCount() + " 位", true);
+		String e = event.getData();
+		e = e.substring(13,23);
+		String [] tmp = null;
+		tmp = e.split(" ");
+		e = tmp[0] + ": " + tmp[1] + ": " + tmp[2] + ": " + tmp[3];
+		mLog(e,true);
 	}
 
 	public void onEvent(LogMessageEvent event) {
@@ -213,7 +220,7 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		receiveDataFormat = sharedPreferences.getString(Consts.RECEIVE_DATA_FORMAT, Consts.HEXADECIMAL);
+		receiveDataFormat = sharedPreferences.getString(Consts.RECEIVE_DATA_FORMAT, Consts.INTEGER);
 		prepareServices();
 		setDelimiter();
 		eventBus.register(this);
@@ -233,7 +240,7 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 	}
 
 	private void setSelectedMenuItemsFromSettings(Menu menu) {
-		receiveDataFormat = sharedPreferences.getString(Consts.RECEIVE_DATA_FORMAT, Consts.HEXADECIMAL);
+		receiveDataFormat = sharedPreferences.getString(Consts.RECEIVE_DATA_FORMAT, Consts.INTEGER);
 		if (receiveDataFormat != null) {
 			if (receiveDataFormat.equals(Consts.BINARY)) {
 				menu.findItem(R.id.menuSettingsReceiveBinary).setChecked(true);
@@ -288,7 +295,7 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 			break;
 		}
 
-		receiveDataFormat = sharedPreferences.getString(Consts.RECEIVE_DATA_FORMAT, Consts.HEXADECIMAL);
+		receiveDataFormat = sharedPreferences.getString(Consts.RECEIVE_DATA_FORMAT, Consts.INTEGER);
 		setDelimiter();
 		return true;
 	}
@@ -355,8 +362,8 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 			edtlogText.append(Consts.NEW_LINE);
 		}
 		edtlogText.append(log);
-		if(edtlogText.getLineCount()>200) {
-			edtlogText.setText("cleared");
+		if(edtlogText.getLineCount()>15) {
+			edtlogText.setText("");
 		}
 	}
 
@@ -365,8 +372,8 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 			editTextTip.append(Consts.NEW_LINE);
 		}
 		editTextTip.append(log);
-		if(editTextTip.getLineCount()>200) {
-			editTextTip.setText("cleared");
+		if(editTextTip.getLineCount()>15) {
+			editTextTip.setText("");
 		}
 	}
 

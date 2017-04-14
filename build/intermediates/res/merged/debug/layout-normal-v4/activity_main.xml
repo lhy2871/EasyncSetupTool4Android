@@ -83,6 +83,31 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="设备时间码：" />
+
+        <EditText
+            android:id="@+id/edtlogText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:clickable="false"
+            android:inputType="textMultiLine"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceSmallInverse"
+            android:visibility="visible">
+
+        </EditText>
+    </LinearLayout>
+
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="wrap_content"
@@ -95,7 +120,8 @@
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="@string/sendData"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse" />
+            android:textAppearance="?android:attr/textAppearanceSmallInverse"
+            android:visibility="invisible" />
 
         <RadioButton
             android:id="@+id/rbSendText"
@@ -118,7 +144,8 @@
             android:enabled="false"
             android:minHeight="36dip"
             android:text="@string/send"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse">
+            android:textAppearance="?android:attr/textAppearanceSmallInverse"
+            android:visibility="invisible">
 
             <requestFocus />
         </Button>
@@ -129,7 +156,7 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:textAppearance="?android:attr/textAppearanceSmallInverse"
-            android:visibility="visible" />
+            android:visibility="invisible" />
 
     </LinearLayout>
 
@@ -141,28 +168,8 @@
         android:clickable="false"
         android:inputType="textMultiLine"
         android:textAppearance="?android:attr/textAppearanceSmallInverse"
-        android:visibility="visible">
+        android:visibility="invisible">
 
     </EditText>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/edtlogText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="top"
-            android:layout_weight="1"
-            android:clickable="false"
-            android:inputType="textMultiLine"
-            android:singleLine="false"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse"
-            android:visibility="visible">
-
-        </EditText>
-    </LinearLayout>
 
 </LinearLayout>
