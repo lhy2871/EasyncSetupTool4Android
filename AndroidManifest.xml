@@ -35,14 +35,6 @@
             android:name=".core.services.USBHIDService"
             android:icon="@drawable/ic_launcher"
             android:label="@string/app_name" />
-        <service
-            android:name=".core.services.WebServerService"
-            android:icon="@drawable/ic_launcher"
-            android:label="@string/web_server" />
-        <service
-            android:name=".core.services.SocketService"
-            android:icon="@drawable/ic_launcher"
-            android:label="@string/socket_server" />
 
         <activity
             android:name=".SettingsActivity"

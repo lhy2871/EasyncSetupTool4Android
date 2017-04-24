@@ -59,8 +59,6 @@ public class SettingsActivity extends PreferenceActivity {
         // Bind the summaries of EditText/List/Dialog/Ringtone preferences to
         // their values. When their values change, their summaries are updated
         // to reflect the new value, per the Android Design guidelines.
-        bindPreferenceSummaryToValue(findPreference("web_server_port"));
-        bindPreferenceSummaryToValue(findPreference("socket_server_port"));
     }
 
     /**
@@ -170,8 +168,6 @@ public class SettingsActivity extends PreferenceActivity {
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("web_server_port"));
-            bindPreferenceSummaryToValue(findPreference("socket_server_port"));
         }
     }
 

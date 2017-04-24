@@ -27,9 +27,7 @@ import com.appspot.usbhidterminal.core.events.SelectDeviceEvent;
 import com.appspot.usbhidterminal.core.events.ShowDevicesListEvent;
 import com.appspot.usbhidterminal.core.events.USBDataReceiveEvent;
 import com.appspot.usbhidterminal.core.events.USBDataSendEvent;
-import com.appspot.usbhidterminal.core.services.SocketService;
 import com.appspot.usbhidterminal.core.services.USBHIDService;
-import com.appspot.usbhidterminal.core.services.WebServerService;
 
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.EventBusException;
@@ -66,25 +64,9 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 
 	protected EventBus eventBus;
 
-
-	private SharedPreferences.OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-		@Override
-		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-			if ("enable_socket_server".equals(key) || "socket_server_port".equals(key)) {
-				socketServiceIsStart(false);
-				socketServiceIsStart(sharedPreferences.getBoolean("enable_socket_server", false));
-			} else if ("enable_web_server".equals(key) || "web_server_port".equals(key)) {
-				webServerServiceIsStart(false);
-				webServerServiceIsStart(sharedPreferences.getBoolean("enable_web_server", false));
-			}
-		}
-	};
-
 	private void prepareServices() {
 		usbService = new Intent(this, USBHIDService.class);
 		startService(usbService);
-		webServerServiceIsStart(sharedPreferences.getBoolean("enable_web_server", false));
-		socketServiceIsStart(sharedPreferences.getBoolean("enable_socket_server", false));
 	}
 
 	@Override
@@ -96,8 +78,6 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 		} catch (EventBusException e) {
 			eventBus = EventBus.getDefault();
 		}
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
 		initUI();
 	}
 
@@ -308,19 +288,10 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 			return;
 		}
 		switch (action) {
-			case Consts.WEB_SERVER_CLOSE_ACTION:
-				stopService(new Intent(this, WebServerService.class));
-				break;
 			case Consts.USB_HID_TERMINAL_CLOSE_ACTION:
-				stopService(new Intent(this, SocketService.class));
-				stopService(new Intent(this, WebServerService.class));
 				stopService(new Intent(this, USBHIDService.class));
 				((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).cancel(Consts.USB_HID_TERMINAL_NOTIFICATION);
 				finish();
-				break;
-			case Consts.SOCKET_SERVER_CLOSE_ACTION:
-				stopService(new Intent(this, SocketService.class));
-				sharedPreferences.edit().putBoolean("enable_socket_server", false).apply();
 				break;
 		}
 	}
@@ -374,28 +345,6 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 		editTextTip.append(log);
 		if(editTextTip.getLineCount()>15) {
 			editTextTip.setText("");
-		}
-	}
-
-	private void webServerServiceIsStart(boolean isStart) {
-		if (isStart) {
-			Intent webServerService = new Intent(this, WebServerService.class);
-			webServerService.setAction("start");
-			webServerService.putExtra("WEB_SERVER_PORT", Integer.parseInt(sharedPreferences.getString("web_server_port", "7799")));
-			startService(webServerService);
-		} else {
-			stopService(new Intent(this, WebServerService.class));
-		}
-	}
-
-	private void socketServiceIsStart(boolean isStart) {
-		if (isStart) {
-			Intent socketServerService = new Intent(this, SocketService.class);
-			socketServerService.setAction("start");
-			socketServerService.putExtra("SOCKET_PORT", Integer.parseInt(sharedPreferences.getString("socket_server_port", "7899")));
-			startService(socketServerService);
-		} else {
-			stopService(new Intent(this, SocketService.class));
 		}
 	}
 
