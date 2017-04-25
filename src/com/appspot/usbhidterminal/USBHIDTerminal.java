@@ -78,6 +78,7 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 		} catch (EventBusException e) {
 			eventBus = EventBus.getDefault();
 		}
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		initUI();
 	}
 
