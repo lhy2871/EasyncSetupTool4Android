@@ -17,7 +17,6 @@ repositories {
 dependencies {
     compile 'com.android.support:support-v4:22.1.1'
     compile 'com.nanohttpd:nanohttpd:2.1.1'
-    compile 'com.nanohttpd:nanohttpd-websocket:2.1.1'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.google.android.gms:play-services-auth:10.2.1'
 }
@@ -25,7 +24,7 @@ dependencies {
 android {
     signingConfigs {
         HanyuanLiu {
-            storeFile file('C:/Users/lhy28/Documents/repo/Android/Sign/HanyuanLiu.jks')
+            //storeFile file('C:/Users/lhy28/Documents/repo/Android/Sign/HanyuanLiu.jks')
         }
     }
     lintOptions {

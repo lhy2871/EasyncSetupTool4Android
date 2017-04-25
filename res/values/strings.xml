@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Easync Setup Tool</string>
-    <string name="web_server">网页服务器</string>
-    <string name="socket_server">Socket Server</string>
     <string name="action_exit">退出</string>
     <string name="settings">设置</string>
     <string name="receiveDataFormat">接收数据类型</string>
