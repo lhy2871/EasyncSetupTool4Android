@@ -112,21 +112,21 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 		//rbSendText.setOnClickListener(this);
 
 		Calendar c = Calendar.getInstance();
-		currentTime = Integer.toString(c.get(Calendar.HOUR_OF_DAY)) + ":" + Integer.toString(c.get(Calendar.MINUTE)) + ":" + Integer.toString(c.get(Calendar.SECOND));
+		//currentTime = Integer.toString(c.get(Calendar.HOUR_OF_DAY)) + ":" + Integer.toString(c.get(Calendar.MINUTE)) + ":" + Integer.toString(c.get(Calendar.SECOND));
 		currentTimeHex = "0x" + Integer.toHexString(c.get(Calendar.HOUR_OF_DAY)) + " 0x" + Integer.toHexString(c.get(Calendar.MINUTE)) + " 0x" + Integer.toHexString(c.get(Calendar.SECOND));
-		showTip("请选择设备\n十六进制计数--12点对应0x0c\n0xfe 0xdc 0x03 0x00 [小时] 0x00 [分钟] 0x00 [秒钟]\n现在时间: " + currentTime + "\n应给指令：\n0xfe 0xdc 0x03 " + currentTimeHex, false);
-		mLog("",false);
+		/*showTip("请选择设备\n十六进制计数--12点对应0x0c\n0xfe 0xdc 0x03 0x00 [小时] 0x00 [分钟] 0x00 [秒钟]\n现在时间: " + currentTime + "\n应给指令：\n0xfe 0xdc 0x03 " + currentTimeHex, false);
+		mLog("",false);*/
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 		//currentTime = "0x00 0x00 0x00";
-		edtxtHidInput.setText("0xfe 0xdc 0x03 " + currentTimeHex);
+		//edtxtHidInput.setText("0xfe 0xdc 0x03 " + currentTimeHex);
 		// btnSend.setEnabled(true);
 	}
 
 	public void onClick(View v) {
-		if (v == btnSend) {
+		if /*(v == btnSend) {
 			eventBus.post(new USBDataSendEvent(edtxtHidInput.getText().toString()));
-		} else if (v == button_24) {
+		} else if*/ (v == button_24) {
 			sendToUSBService(Consts.ACTION_USB_DATA_TYPE, true);
 			fps24 = "0xfe 0xdc 0x02 0x00";
 			eventBus.post(new USBDataSendEvent(fps24));
@@ -135,8 +135,8 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 			fps25 = "0xfe 0xdc 0x02 0x01";
 			eventBus.post(new USBDataSendEvent(fps25));
 		//} else if (v == rbSendText || v == rbSendDataType) {
-		} else if (v == rbSendDataType) {
-			sendToUSBService(Consts.ACTION_USB_DATA_TYPE, rbSendDataType.isChecked());
+		/*} else if (v == rbSendDataType) {
+			sendToUSBService(Consts.ACTION_USB_DATA_TYPE, rbSendDataType.isChecked());*/
 		} else if (v == btnClear) {
 			edtlogText.setText("");
 		} else if (v == btnSelectHIDDevice) {
@@ -175,10 +175,10 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 	public void onEvent(USBDataReceiveEvent event) {
 		//mLog(event.getData() + " \n接收到 " + event.getBytesCount() + " 位", true);
 		String e = event.getData();
-		e = e.substring(13,23);
+		e = e.substring(16,27);
 		String [] tmp = null;
 		tmp = e.split(" ");
-		e = tmp[0] + ": " + tmp[1] + ": " + tmp[2] + ": " + tmp[3];
+		e = "@  " + tmp[0] + ": " + tmp[1] + ": " + tmp[2] + ": " + tmp[3];
 		mLog(e,true);
 	}
 
@@ -249,7 +249,7 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		item.setChecked(true);
 		switch (item.getItemId()) {
-		case R.id.menuSettings:
+			case R.id.menuSettings:
 			Intent i = new Intent(this, SettingsActivity.class);
 			startActivityForResult(i, Consts.RESULT_SETTINGS);
 			break;
@@ -339,7 +339,7 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 		}
 	}
 
-	private void showTip(String log, boolean newLine) {
+	/*private void showTip(String log, boolean newLine) {
 		if (newLine) {
 			editTextTip.append(Consts.NEW_LINE);
 		}
@@ -347,7 +347,7 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 		if(editTextTip.getLineCount()>15) {
 			editTextTip.setText("");
 		}
-	}
+	}*/
 
 	private void setVersionToTitle() {
 		try {

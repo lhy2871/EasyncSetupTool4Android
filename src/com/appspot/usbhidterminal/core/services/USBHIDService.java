@@ -40,24 +40,25 @@ public class USBHIDService extends AbstractUSBHIDService {
 
 	@Override
 	public void onDeviceConnected(UsbDevice device) {
-		mLog("device connected");
+		mLog("设备已连接");
 	}
 
 	@Override
 	public void onDeviceDisconnected(UsbDevice device) {
-		mLog("device disconnected");
+		mLog("设备已断开");
 	}
 
 	@Override
 	public void onDeviceSelected(UsbDevice device) {
 		//mLog("Selected device VID:" + Integer.toHexString(device.getVendorId()) + " PID:" + Integer.toHexString(device.getProductId()));
-		mLog("Selected device Easync @" + device.getDeviceName());
+		//mLog("已经选择 Easync @" + device.getDeviceName());
+		mLog("已经选择 Easync 时码同步器");
 	}
 
 	@Override
 	public CharSequence onBuildingDevicesList(UsbDevice usbDevice) {
 		//return "devID:" + usbDevice.getDeviceId() + " VID:" + Integer.toHexString(usbDevice.getVendorId()) + " PID:" + Integer.toHexString(usbDevice.getProductId()) + " " + usbDevice.getDeviceName();
-		return "Easync@" + "devID:" + usbDevice.getDeviceId() + usbDevice.getDeviceName();
+		return "Easync 时间码同步器"; // + "devID:" + usbDevice.getDeviceId() + usbDevice.getDeviceName();
 		//if (usbDevice.getVendorId() == 483 && usbDevice.getProductId() == 5750) {
 		//	return "Easync";
 		//}
@@ -65,15 +66,16 @@ public class USBHIDService extends AbstractUSBHIDService {
 
 	@Override
 	public void onUSBDataSending(String data) {
-		mLog("Sending: " + data);
+		//mLog("Sending: " + data);
+		//mLog("指令已发送");
 	}
 
 	@Override
 	public void onUSBDataSended(int status, byte[] out) {
-		mLog("Sended " + status + " bytes");
-		for (int i = 0; i < out.length && out[i] != 0; i++) {
+		mLog("指令已发送 （" + status + " 个字节）");
+		/*for (int i = 0; i < out.length && out[i] != 0; i++) {
 			mLog(Consts.SPACE + USBUtils.toInt(out[i]));
-		}
+		}*/
 	}
 
 	@Override
@@ -87,10 +89,15 @@ public class USBHIDService extends AbstractUSBHIDService {
 		StringBuilder stringBuilder = new StringBuilder();
 		int i = 0;
 		if (receiveDataFormat.equals(Consts.INTEGER)) {
-			for (; i < buffer.length && buffer[i] != 0; i++) {
+			/*for (; i < buffer.length && buffer[i] != 0; i++) {
 				stringBuilder.append(delimiter).append(String.valueOf(USBUtils.toInt(buffer[i])));
+			}*/
+			for (; i < 7; i++) {
+				if (buffer[i] == 0){stringBuilder.append(delimiter).append("00");}
+				else if (buffer[i] < 10){stringBuilder.append(delimiter).append("0"+String.valueOf(USBUtils.toInt(buffer[i])));}
+				else stringBuilder.append(delimiter).append(String.valueOf(USBUtils.toInt(buffer[i])));
 			}
-		} else if (receiveDataFormat.equals(Consts.HEXADECIMAL)) {
+		}/* else if (receiveDataFormat.equals(Consts.HEXADECIMAL)) {
 			for (; i < buffer.length && buffer[i] != 0; i++) {
 				stringBuilder.append(delimiter).append(Integer.toHexString(buffer[i]));
 			}
@@ -102,7 +109,7 @@ public class USBHIDService extends AbstractUSBHIDService {
 			for (; i < buffer.length && buffer[i] != 0; i++) {
 				stringBuilder.append(delimiter).append("0b").append(Integer.toBinaryString(Integer.valueOf(buffer[i])));
 			}
-		}
+		}*/
 		eventBus.post(new USBDataReceiveEvent(stringBuilder.toString(), i));
 	}
 

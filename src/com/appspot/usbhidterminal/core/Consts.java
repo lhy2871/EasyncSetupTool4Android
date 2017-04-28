@@ -3,7 +3,7 @@ package com.appspot.usbhidterminal.core;
 public abstract class Consts {
 	public static final String BINARY = "二进制";
 	public static final String INTEGER = "十进制";
-	public static final String HEXADECIMAL = "十六进制l";
+	public static final String HEXADECIMAL = "十六进制";
 	public static final String TEXT = "文本";
 
 	public static final String ACTION_USB_PERMISSION = "com.google.android.HID.action.USB_PERMISSION";
