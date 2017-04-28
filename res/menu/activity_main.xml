@@ -11,41 +11,42 @@
         android:visible="false" />
     <item
         android:id="@+id/menuSettingsReceiveDataFormat"
-        android:title="@string/receiveDataFormat">
+        android:title="@string/receiveDataFormat"
+        android:visible="false">
         <menu>
             <group
                 android:id="@+id/menuSettingsReceive"
-                android:checkableBehavior="single" >
+                android:checkableBehavior="single">
                 <item
                     android:id="@+id/menuSettingsReceiveBinary"
-                    android:title="@string/binary"/>
+                    android:title="@string/binary" />
                 <item
                     android:id="@+id/menuSettingsReceiveInteger"
-                    android:title="@string/integer"/>
+                    android:title="@string/integer" />
                 <item
                     android:id="@+id/menuSettingsReceiveHexadecimal"
-                    android:title="@string/hexadecimal"/>
+                    android:title="@string/hexadecimal" />
                 <item
                     android:id="@+id/menuSettingsReceiveText"
-                    android:title="@string/text"/>
+                    android:title="@string/text" />
             </group>
         </menu>
     </item>
     <item
         android:id="@+id/menuSettingsDelimiter"
-        android:title="@string/delimiter">
+        android:title="@string/delimiter"
+        android:visible="false">
         <menu>
-            <group
-                android:checkableBehavior="single" >
+            <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/menuSettingsDelimiterNone"
-                    android:title="@string/delimiterNone"/>
+                    android:title="@string/delimiterNone" />
                 <item
                     android:id="@+id/menuSettingsDelimiterSpace"
-                    android:title="@string/delimiterSpace"/>
+                    android:title="@string/delimiterSpace" />
                 <item
                     android:id="@+id/menuSettingsDelimiterNewLine"
-                    android:title="@string/delimiterNewLine"/>
+                    android:title="@string/delimiterNewLine" />
             </group>
         </menu>
     </item>
