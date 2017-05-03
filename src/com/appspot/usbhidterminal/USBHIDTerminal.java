@@ -34,6 +34,8 @@ import de.greenrobot.event.EventBusException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import static com.appspot.usbhidterminal.R.id.timeView;
+
 
 public class USBHIDTerminal extends Activity implements View.OnClickListener {
 
@@ -41,13 +43,14 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 
 	private Intent usbService;
 
-	private String currentTime;
+	//private String currentTime;
 	private String currentTimeHex;
 	private String fps24;
 	private String fps25;
 	private EditText edtlogText;
-	private EditText editTextTip;
-	private EditText edtxtHidInput;
+	private TextView timeView;
+	//private EditText editTextTip;
+	//private EditText edtxtHidInput;
 	private Button btnSend;
 	private Button btnSelectHIDDevice;
 	private Button btnClear;
@@ -102,13 +105,14 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 		button_f0 = (Button) findViewById(R.id.button_f0);
 		button_f0.setOnClickListener(this);
 
-		edtxtHidInput = (EditText) findViewById(R.id.edtxtHidInput);
+		//edtxtHidInput = (EditText) findViewById(R.id.edtxtHidInput);
 		edtlogText = (EditText) findViewById(R.id.edtlogText);
-		editTextTip = (EditText) findViewById(R.id.editTextTip);
+		timeView = (TextView) findViewById(R.id.timeView);
+		//editTextTip = (EditText) findViewById(R.id.editTextTip);
 
-		rbSendDataType = (RadioButton) findViewById(R.id.rbSendData);
+		//rbSendDataType = (RadioButton) findViewById(R.id.rbSendData);
 		//rbSendText = (RadioButton) findViewById(R.id.rbSendText);
-		rbSendDataType.setOnClickListener(this);
+		//rbSendDataType.setOnClickListener(this);
 		//rbSendText.setOnClickListener(this);
 
 		Calendar c = Calendar.getInstance();
@@ -175,10 +179,15 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 	public void onEvent(USBDataReceiveEvent event) {
 		//mLog(event.getData() + " \n接收到 " + event.getBytesCount() + " 位", true);
 		String e = event.getData();
-		e = e.substring(16,27);
-		String [] tmp = null;
-		tmp = e.split(" ");
-		e = "@  " + tmp[0] + ": " + tmp[1] + ": " + tmp[2] + ": " + tmp[3];
+		//e = e.substring(1,15);
+		/*if (e.substring(1,15) == "0254 0220 0132") {
+			e = "Easync已正常连接";
+		}else {*/
+			e = e.substring(16, 27);
+			String[] tmp = null;
+			tmp = e.split(" ");
+			e = "@  " + tmp[0] + ": " + tmp[1] + ": " + tmp[2] + ": " + tmp[3];
+		//}
 		mLog(e,true);
 	}
 
@@ -330,13 +339,15 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 	}
 
 	private void mLog(String log, boolean newLine) {
-		if (newLine) {
+		/*if (newLine) {
 			edtlogText.append(Consts.NEW_LINE);
 		}
 		edtlogText.append(log);
 		if(edtlogText.getLineCount()>15) {
 			edtlogText.setText("");
-		}
+		}*/
+		edtlogText.setText(log);//单行显示
+		//timeView.setText(log);//单行显示
 	}
 
 	/*private void showTip(String log, boolean newLine) {

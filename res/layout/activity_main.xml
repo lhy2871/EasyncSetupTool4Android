@@ -10,166 +10,175 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="top"
-        android:gravity="top"
-        android:orientation="horizontal">
+        android:layout_gravity="top|left"
+        android:orientation="vertical"
+        android:windowSoftInputMode="stateHidden"
+        tools:context=".USBHIDTerminal">
 
-        <Button
-            android:id="@+id/btnSelectHIDDevice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="36dip"
-            android:minWidth="50dip"
-            android:text="@string/selectHIDDevice"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse" />
-
-        <Button
-            android:id="@+id/btnClear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|left"
-            android:minHeight="36dip"
-            android:text="@string/clear"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/button_24"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="36dip"
-            android:minWidth="50dip"
-            android:text="24fps"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse"
-            android:visibility="visible" />
-
-        <Button
-            android:id="@+id/button_25"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="36dip"
-            android:minWidth="50dip"
-            android:text="25fps"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse"
-            android:visibility="visible" />
-
-        <Button
-            android:id="@+id/button_RTC"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="36dip"
-            android:minWidth="50dip"
-            android:text="当前时间"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse" />
-
-        <Button
-            android:id="@+id/button_f0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="36dip"
-            android:minWidth="50dip"
-            android:text="从零开始"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="设备时间码：" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/edtlogText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
+            android:gravity="top"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnSelectHIDDevice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="36dip"
+                android:minWidth="50dip"
+                android:text="@string/selectHIDDevice"
+                android:textAppearance="?android:attr/textAppearanceSmallInverse" />
+
+            <Button
+                android:id="@+id/btnClear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:minHeight="36dip"
+                android:text="@string/clear"
+                android:textAppearance="?android:attr/textAppearanceSmallInverse" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="36dip"
+                android:minWidth="50dip"
+                android:text="24fps"
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/button_25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="36dip"
+                android:minWidth="50dip"
+                android:text="25fps"
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/button_RTC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="36dip"
+                android:minWidth="50dip"
+                android:text="当前时间"
+                android:textAppearance="?android:attr/textAppearanceSmallInverse" />
+
+            <Button
+                android:id="@+id/button_f0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="36dip"
+                android:minWidth="50dip"
+                android:text="从零开始"
+                android:textAppearance="?android:attr/textAppearanceSmallInverse" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/timeView"
+                android:layout_width="295dp"
+                android:layout_height="wrap_content"
+                android:text="设备时间码：" />
+
+            <EditText
+                android:id="@+id/edtlogText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:clickable="false"
+                android:inputType="textMultiLine"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:visibility="visible">
+
+            </EditText>
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbSendData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/sendData"
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:visibility="invisible" />
+
+            <RadioButton
+                android:id="@+id/rbSendText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/sendText"
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:visibility="invisible" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btnSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:minHeight="36dip"
+                android:text="@string/send"
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:visibility="invisible">
+
+                <requestFocus />
+            </Button>
+
+            <EditText
+                android:id="@+id/edtxtHidInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/editTextTip"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
             android:clickable="false"
             android:inputType="textMultiLine"
-            android:singleLine="true"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse"
-            android:visibility="visible">
-
-        </EditText>
-    </LinearLayout>
-
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/rbSendData"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/sendData"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse"
-            android:visibility="invisible" />
-
-        <RadioButton
-            android:id="@+id/rbSendText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:text="@string/sendText"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse"
-            android:visibility="invisible" />
-    </RadioGroup>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/btnSend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:minHeight="36dip"
-            android:text="@string/send"
             android:textAppearance="?android:attr/textAppearanceSmallInverse"
             android:visibility="invisible">
 
-            <requestFocus />
-        </Button>
-
-        <EditText
-            android:id="@+id/edtxtHidInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse"
-            android:visibility="invisible" />
+        </EditText>
 
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="top"
-        android:clickable="false"
-        android:inputType="textMultiLine"
-        android:textAppearance="?android:attr/textAppearanceSmallInverse"
-        android:visibility="invisible">
-
-    </EditText>
-
 </LinearLayout>
