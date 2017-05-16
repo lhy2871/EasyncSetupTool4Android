@@ -38,7 +38,8 @@
                 android:layout_gravity="top|left"
                 android:minHeight="36dip"
                 android:text="@string/clear"
-                android:textAppearance="?android:attr/textAppearanceSmallInverse" />
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:visibility="invisible" />
 
         </LinearLayout>
 
@@ -46,6 +47,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_2397"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="36dip"
+                android:minWidth="50dip"
+                android:text="23.97fps"
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/button_24"
@@ -69,6 +81,14 @@
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:visibility="visible" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
             <Button
                 android:id="@+id/button_RTC"
                 android:layout_width="wrap_content"
@@ -89,6 +109,31 @@
                 android:text="从零开始"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/powerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="电量：" />
+
+            <EditText
+                android:id="@+id/powerlog"
+                android:layout_width="152dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:clickable="false"
+                android:inputType="textMultiLine"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:visibility="visible">
+
+            </EditText>
         </LinearLayout>
 
         <LinearLayout

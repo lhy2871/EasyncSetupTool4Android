@@ -45,21 +45,24 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 
 	//private String currentTime;
 	private String currentTimeHex;
+	private String fps2397;
 	private String fps24;
 	private String fps25;
 	private EditText edtlogText;
+	private EditText powerlog;
 	private TextView timeView;
 	//private EditText editTextTip;
 	//private EditText edtxtHidInput;
-	private Button btnSend;
+	//private Button btnSend;
 	private Button btnSelectHIDDevice;
-	private Button btnClear;
+	//private Button btnClear;
 	private Button button_RTC;
 	private Button button_f0;
+	private Button button_2397;
 	private Button button_24;
 	private Button button_25;
 	//private RadioButton rbSendText;
-	private RadioButton rbSendDataType;
+	//private RadioButton rbSendDataType;
 	private String settingsDelimiter;
 
 	private String receiveDataFormat;
@@ -87,15 +90,17 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 
 	private void initUI() {
 		setVersionToTitle();
-		btnSend = (Button) findViewById(R.id.btnSend);
-		btnSend.setOnClickListener(this);
+		//btnSend = (Button) findViewById(R.id.btnSend);
+		//btnSend.setOnClickListener(this);
 
 		btnSelectHIDDevice = (Button) findViewById(R.id.btnSelectHIDDevice);
 		btnSelectHIDDevice.setOnClickListener(this);
 
-		btnClear = (Button) findViewById(R.id.btnClear);
-		btnClear.setOnClickListener(this);
+		//btnClear = (Button) findViewById(R.id.btnClear);
+		//btnClear.setOnClickListener(this);
 
+		button_2397 = (Button) findViewById(R.id.button_2397);
+		button_2397.setOnClickListener(this);
 		button_24 = (Button) findViewById(R.id.button_24);
 		button_24.setOnClickListener(this);
 		button_25 = (Button) findViewById(R.id.button_25);
@@ -107,6 +112,7 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 
 		//edtxtHidInput = (EditText) findViewById(R.id.edtxtHidInput);
 		edtlogText = (EditText) findViewById(R.id.edtlogText);
+		powerlog = (EditText) findViewById(R.id.powerlog);
 		timeView = (TextView) findViewById(R.id.timeView);
 		//editTextTip = (EditText) findViewById(R.id.editTextTip);
 
@@ -130,19 +136,26 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 	public void onClick(View v) {
 		if /*(v == btnSend) {
 			eventBus.post(new USBDataSendEvent(edtxtHidInput.getText().toString()));
-		} else if*/ (v == button_24) {
+		} else if*/(v == button_2397) {
 			sendToUSBService(Consts.ACTION_USB_DATA_TYPE, true);
+			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x01 0x00"));
+			fps2397 = "0xfe 0xdc 0x02 0x00";
+			eventBus.post(new USBDataSendEvent(fps2397));
+		} else if (v == button_24) {
+			sendToUSBService(Consts.ACTION_USB_DATA_TYPE, true);
+			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x01 0x00"));
 			fps24 = "0xfe 0xdc 0x02 0x00";
 			eventBus.post(new USBDataSendEvent(fps24));
 		} else if (v == button_25){
 			sendToUSBService(Consts.ACTION_USB_DATA_TYPE, true);
+			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x01 0x00"));
 			fps25 = "0xfe 0xdc 0x02 0x01";
 			eventBus.post(new USBDataSendEvent(fps25));
 		//} else if (v == rbSendText || v == rbSendDataType) {
 		/*} else if (v == rbSendDataType) {
-			sendToUSBService(Consts.ACTION_USB_DATA_TYPE, rbSendDataType.isChecked());*/
+			sendToUSBService(Consts.ACTION_USB_DATA_TYPE, rbSendDataType.isChecked());
 		} else if (v == btnClear) {
-			edtlogText.setText("");
+			edtlogText.setText(""); */
 		} else if (v == btnSelectHIDDevice) {
 			eventBus.post(new PrepareDevicesListEvent());
 		} else if (v == button_RTC) {
@@ -179,16 +192,28 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 	public void onEvent(USBDataReceiveEvent event) {
 		//mLog(event.getData() + " \n接收到 " + event.getBytesCount() + " 位", true);
 		String e = event.getData();
-		//e = e.substring(1,15);
-		/*if (e.substring(1,15) == "0254 0220 0132") {
-			e = "Easync已正常连接";
-		}else {*/
+		String fps = "帧速率未知";
+		if (Integer.parseInt(e.substring(11,15)) == 132) {
+			String[] tmp = null;
+			tmp = e.substring(16,21).split(" ");
+			int powerpercent = (Integer.parseInt(tmp[0]) * 256 + Integer.parseInt(tmp[1])) * 825 / 512;
+			if (powerpercent > 4200) { powerlog("100 %",true); }
+			else if (powerpercent < 3600) { powerlog("0 %",true); }
+			else {
+				powerpercent = (powerpercent - 3600) / 6;
+				powerlog(powerpercent + " %",true);
+			}
+		} else if (Integer.parseInt(e.substring(11,15)) == 129) {
+				if (Integer.parseInt(e.substring(245,249)) == 0 ) {fps = "24";}
+				if (Integer.parseInt(e.substring(245,249)) == 1 ) {fps = "25";}
+				//if (Integer.parseInt(e.substring()) == 0 ) {fps = "23.976";}
+		} else {
 			e = e.substring(16, 27);
 			String[] tmp = null;
 			tmp = e.split(" ");
-			e = "@  " + tmp[0] + ": " + tmp[1] + ": " + tmp[2] + ": " + tmp[3];
-		//}
-		mLog(e,true);
+			e = tmp[0] + ": " + tmp[1] + ": " + tmp[2] + ": " + tmp[3] + " @ " + fps + "fps";
+			if (Integer.parseInt(tmp[0]) < 25 && Integer.parseInt(tmp[1]) < 61 && Integer.parseInt(tmp[2]) < 61) mLog(e,true);
+		}
 	}
 
 	public void onEvent(LogMessageEvent event) {
@@ -197,14 +222,6 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 
 	public void onEvent(ShowDevicesListEvent event) {
 		showListOfDevices(event.getCharSequenceArray());
-	}
-
-	public void onEvent(DeviceAttachedEvent event) {
-		btnSend.setEnabled(true);
-	}
-
-	public void onEvent(DeviceDetachedEvent event) {
-		btnSend.setEnabled(false);
 	}
 
 	@Override
@@ -339,15 +356,12 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 	}
 
 	private void mLog(String log, boolean newLine) {
-		/*if (newLine) {
-			edtlogText.append(Consts.NEW_LINE);
-		}
-		edtlogText.append(log);
-		if(edtlogText.getLineCount()>15) {
-			edtlogText.setText("");
-		}*/
 		edtlogText.setText(log);//单行显示
 		//timeView.setText(log);//单行显示
+	}
+
+	private void powerlog(String log, boolean newLine) {
+		powerlog.setText(log);//单行显示
 	}
 
 	/*private void showTip(String log, boolean newLine) {
