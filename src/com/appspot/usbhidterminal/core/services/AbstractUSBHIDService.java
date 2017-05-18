@@ -164,7 +164,7 @@ public abstract class AbstractUSBHIDService extends Service {
 				}
 			}
 			int status = connection.bulkTransfer(endPointWrite, out, out.length, 250);
-			onUSBDataSended(status, out);
+			//onUSBDataSended(status, out);//发送信息之后显示发送状态
 		}
 	}
 

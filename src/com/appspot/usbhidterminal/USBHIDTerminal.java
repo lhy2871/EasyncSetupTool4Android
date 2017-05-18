@@ -48,6 +48,7 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 	private String fps2397;
 	private String fps24;
 	private String fps25;
+	private String fps = "帧速率未知";
 	private EditText edtlogText;
 	private EditText powerlog;
 	private TextView timeView;
@@ -138,19 +139,42 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 			eventBus.post(new USBDataSendEvent(edtxtHidInput.getText().toString()));
 		} else if*/(v == button_2397) {
 			sendToUSBService(Consts.ACTION_USB_DATA_TYPE, true);
-			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x01 0x00"));
 			fps2397 = "0xfe 0xdc 0x02 0x00";
 			eventBus.post(new USBDataSendEvent(fps2397));
+			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x01"));
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			eventBus.post(new USBDataSendEvent(fps2397));
+			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x01"));
+
 		} else if (v == button_24) {
 			sendToUSBService(Consts.ACTION_USB_DATA_TYPE, true);
-			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x01 0x00"));
 			fps24 = "0xfe 0xdc 0x02 0x00";
 			eventBus.post(new USBDataSendEvent(fps24));
+			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x01"));
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			eventBus.post(new USBDataSendEvent(fps24));
+			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x01"));
 		} else if (v == button_25){
 			sendToUSBService(Consts.ACTION_USB_DATA_TYPE, true);
-			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x01 0x00"));
 			fps25 = "0xfe 0xdc 0x02 0x01";
 			eventBus.post(new USBDataSendEvent(fps25));
+			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x01"));
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			eventBus.post(new USBDataSendEvent(fps25));
+			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x01"));
+
 		//} else if (v == rbSendText || v == rbSendDataType) {
 		/*} else if (v == rbSendDataType) {
 			sendToUSBService(Consts.ACTION_USB_DATA_TYPE, rbSendDataType.isChecked());
@@ -163,9 +187,25 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 			Calendar c = Calendar.getInstance();
 			currentTimeHex = "0x" + Integer.toHexString(c.get(Calendar.HOUR_OF_DAY)) + " 0x" + Integer.toHexString(c.get(Calendar.MINUTE)) + " 0x" + Integer.toHexString(c.get(Calendar.SECOND));
 			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x03 " + currentTimeHex));
+			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x01"));
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x03 " + currentTimeHex));
+			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x01"));
 		} else if (v == button_f0) {
 			sendToUSBService(Consts.ACTION_USB_DATA_TYPE, true);
 			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x03 0x00 0x00 0x00"));
+			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x01"));
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x03 0x00 0x00 0x00"));
+			eventBus.post(new USBDataSendEvent("0xfe 0xdc 0x01"));
 		}
 
 	}
@@ -192,7 +232,6 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 	public void onEvent(USBDataReceiveEvent event) {
 		//mLog(event.getData() + " \n接收到 " + event.getBytesCount() + " 位", true);
 		String e = event.getData();
-		String fps = "帧速率未知";
 		if (Integer.parseInt(e.substring(11,15)) == 132) {
 			String[] tmp = null;
 			tmp = e.substring(16,21).split(" ");
@@ -204,14 +243,18 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 				powerlog(powerpercent + " %",true);
 			}
 		} else if (Integer.parseInt(e.substring(11,15)) == 129) {
-				if (Integer.parseInt(e.substring(245,249)) == 0 ) {fps = "24";}
-				if (Integer.parseInt(e.substring(245,249)) == 1 ) {fps = "25";}
-				//if (Integer.parseInt(e.substring()) == 0 ) {fps = "23.976";}
+			String tmp[] = null;
+			tmp = e.split(" ");
+			//fps = tmp[47];
+			if (Integer.parseInt(tmp[47]) == 0 ) {fps = "24";}
+			else if (Integer.parseInt(tmp[47]) == 1 ) {fps = "25";}
+			//if (Integer.parseInt(tmp[47]) == 2 ) {fps = "23.976";}
+			//else fps = tmp[47];
 		} else {
 			e = e.substring(16, 27);
 			String[] tmp = null;
 			tmp = e.split(" ");
-			e = tmp[0] + ": " + tmp[1] + ": " + tmp[2] + ": " + tmp[3] + " @ " + fps + "fps";
+			e = tmp[0] + ": " + tmp[1] + ": " + tmp[2] + ": " + tmp[3] + " @ " + fps + " fps";
 			if (Integer.parseInt(tmp[0]) < 25 && Integer.parseInt(tmp[1]) < 61 && Integer.parseInt(tmp[2]) < 61) mLog(e,true);
 		}
 	}

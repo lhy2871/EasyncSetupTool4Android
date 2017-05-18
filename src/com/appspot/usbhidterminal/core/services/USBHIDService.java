@@ -80,7 +80,7 @@ public class USBHIDService extends AbstractUSBHIDService {
 		StringBuilder stringBuilder = new StringBuilder();
 		int i = 0;
 		if (receiveDataFormat.equals(Consts.INTEGER)) {
-			for (; i < 7; i++) {
+			for (; i < 60; i++) {
 				if (buffer[i] == 0){stringBuilder.append(delimiter).append("00");}
 				else if (buffer[i] < 10){stringBuilder.append(delimiter).append("0"+String.valueOf(USBUtils.toInt(buffer[i])));}
 				else stringBuilder.append(delimiter).append(String.valueOf(USBUtils.toInt(buffer[i])));
