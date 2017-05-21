@@ -222,6 +222,7 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 		builder.setItems(devicesName, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				mLog(String.valueOf(which),true);
 				eventBus.post(new SelectDeviceEvent(which));
 			}
 		});
