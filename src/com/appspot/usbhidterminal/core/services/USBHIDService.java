@@ -56,10 +56,12 @@ public class USBHIDService extends AbstractUSBHIDService {
 	@Override
 	public CharSequence onBuildingDevicesList(UsbDevice usbDevice) {
 		//return "devID:" + usbDevice.getDeviceId() + " VID:" + Integer.toHexString(usbDevice.getVendorId()) + " PID:" + Integer.toHexString(usbDevice.getProductId()) + " " + usbDevice.getDeviceName();
-		if (usbDevice.getVendorId() == 483 && usbDevice.getProductId() == 5750) {
+		if (usbDevice.getVendorId() == 1155 && usbDevice.getProductId() == 22352) {
 			return "Easync 时间码同步器";
 		}
-		else return "devID:" + usbDevice.getDeviceId() + usbDevice.getDeviceName();
+		//else return "devID:" + usbDevice.getDeviceId() + usbDevice.getDeviceName();
+        else return  "VID:" + usbDevice.getVendorId() + " PID:" + usbDevice.getProductId() + "\n ProductName:" + usbDevice.getProductName();
+
 	}
 
 	@Override
