@@ -232,4 +232,71 @@
         </EditText>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Powerd by 习文 @2017-07-14"
+            android:textColor="@android:color/darker_gray"
+            android:visibility="invisible" />
+
+        <EditText
+            android:id="@+id/editEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="email"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:text="lhy2871@126.com"
+            android:textColor="@android:color/darker_gray"
+            android:visibility="invisible" />
+
+        <EditText
+            android:id="@+id/editPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="phone"
+            android:ems="10"
+            android:inputType="phone"
+            android:text="13716888406"
+            android:textColor="@android:color/darker_gray"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Powerd by 习文 @2017-07-14"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textViewMail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="email"
+            android:text="lhy2871@126.com"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textViewPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="phone"
+            android:text="18801218286"
+            android:textAlignment="viewStart"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
 </LinearLayout>
