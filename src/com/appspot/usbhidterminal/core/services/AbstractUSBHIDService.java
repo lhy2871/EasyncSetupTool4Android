@@ -140,7 +140,7 @@ public abstract class AbstractUSBHIDService extends Service {
         for (UsbDevice usbDevice : mUsbManager.getDeviceList().values()) {
             list.add(onBuildingDevicesList(usbDevice));
         }
-        final CharSequence devicesName[] = new CharSequence[mUsbManager.getDeviceList().size()];
+        final CharSequence[] devicesName = new CharSequence[mUsbManager.getDeviceList().size()];
         list.toArray(devicesName);
         eventBus.post(new ShowDevicesListEvent(devicesName));
     }
@@ -154,7 +154,7 @@ public abstract class AbstractUSBHIDService extends Service {
 			onUSBDataSending(data);
 			if (sendAsString) {
 				try {
-					String str[] = data.split("[\\s]");
+					String[] str = data.split("[\\s]");
 					out = new byte[str.length];
 					for (int i = 0; i < str.length; i++) {
 						out[i] = USBUtils.toByte(Integer.decode(str[i]));
@@ -196,7 +196,7 @@ public abstract class AbstractUSBHIDService extends Service {
 		}
 
 		private void setDevice(Intent intent) {
-			device = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+			device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
 			if (device != null && intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
 				onDeviceSelected(device);
 				connection = mUsbManager.openDevice(device);

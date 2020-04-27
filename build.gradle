@@ -1,6 +1,10 @@
 buildscript {
     repositories {
         jcenter()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
     }
 
     dependencies {
@@ -12,13 +16,17 @@ apply plugin: 'com.android.application'
 
 repositories {
     mavenCentral()
+    maven {
+        url 'https://maven.google.com/'
+        name 'Google'
+    }
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:22.1.1'
+    compile 'com.android.support:support-v4:22.2.1'
     compile 'com.nanohttpd:nanohttpd:2.1.1'
     compile 'de.greenrobot:eventbus:2.4.0'
-    compile 'com.google.android.gms:play-services-auth:10.2.1'
+    compile 'com.google.android.gms:play-services-auth:18.0.0'
 }
 
 android {
@@ -31,7 +39,7 @@ android {
         abortOnError false
     }
     compileSdkVersion 22
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '22.0.1'
     defaultConfig {
         minSdkVersion 22
         targetSdkVersion 22
@@ -67,8 +75,14 @@ task adbConfig(type: Exec) {
     commandLine 'adb', 'connect', '192.168.1.45:5555'
 }
 
-
-
 task tst(dependsOn: ['adbConfig', 'connectedAndroidTest']) {
 
+}
+
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }
 }

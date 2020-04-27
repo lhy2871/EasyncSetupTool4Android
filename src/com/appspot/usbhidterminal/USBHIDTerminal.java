@@ -210,7 +210,7 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 
 	}
 
-	void showListOfDevices(CharSequence devicesName[]) {
+	void showListOfDevices(CharSequence[] devicesName) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 		if (devicesName.length == 0) {
@@ -244,7 +244,7 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 				powerlog(powerpercent + " %",true);
 			}
 		} else if (Integer.parseInt(e.substring(11,15)) == 129) {
-			String tmp[] = null;
+			String[] tmp = null;
 			tmp = e.split(" ");
 			//fps = tmp[47];
 			if (Integer.parseInt(tmp[47]) == 0 ) {fps = "24";}
