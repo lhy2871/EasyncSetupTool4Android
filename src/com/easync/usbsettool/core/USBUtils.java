@@ -1,4 +1,4 @@
-package com.appspot.usbhidterminal.core;
+package com.easync.usbsettool.core;
 
 public class USBUtils {
 

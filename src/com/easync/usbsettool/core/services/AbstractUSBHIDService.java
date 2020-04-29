@@ -1,7 +1,4 @@
-package com.appspot.usbhidterminal.core.services;
-
-import java.util.LinkedList;
-import java.util.List;
+package com.easync.usbsettool.core.services;
 
 import android.app.PendingIntent;
 import android.app.Service;
@@ -19,14 +16,18 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.appspot.usbhidterminal.core.Consts;
-import com.appspot.usbhidterminal.core.USBUtils;
-import com.appspot.usbhidterminal.core.events.DeviceAttachedEvent;
-import com.appspot.usbhidterminal.core.events.DeviceDetachedEvent;
-import com.appspot.usbhidterminal.core.events.PrepareDevicesListEvent;
-import com.appspot.usbhidterminal.core.events.SelectDeviceEvent;
-import com.appspot.usbhidterminal.core.events.ShowDevicesListEvent;
-import com.appspot.usbhidterminal.core.events.USBDataSendEvent;
+import com.easync.usbsettool.core.Consts;
+import com.easync.usbsettool.core.USBUtils;
+import com.easync.usbsettool.core.events.DeviceAttachedEvent;
+import com.easync.usbsettool.core.events.DeviceDetachedEvent;
+import com.easync.usbsettool.core.events.PrepareDevicesListEvent;
+import com.easync.usbsettool.core.events.SelectDeviceEvent;
+import com.easync.usbsettool.core.events.ShowDevicesListEvent;
+import com.easync.usbsettool.core.events.USBDataSendEvent;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import de.greenrobot.event.EventBus;
 
 public abstract class AbstractUSBHIDService extends Service {
@@ -140,7 +141,7 @@ public abstract class AbstractUSBHIDService extends Service {
         for (UsbDevice usbDevice : mUsbManager.getDeviceList().values()) {
             list.add(onBuildingDevicesList(usbDevice));
         }
-        final CharSequence[] devicesName = new CharSequence[mUsbManager.getDeviceList().size()];
+        final CharSequence devicesName[] = new CharSequence[mUsbManager.getDeviceList().size()];
         list.toArray(devicesName);
         eventBus.post(new ShowDevicesListEvent(devicesName));
     }
@@ -154,7 +155,7 @@ public abstract class AbstractUSBHIDService extends Service {
 			onUSBDataSending(data);
 			if (sendAsString) {
 				try {
-					String[] str = data.split("[\\s]");
+					String str[] = data.split("[\\s]");
 					out = new byte[str.length];
 					for (int i = 0; i < str.length; i++) {
 						out[i] = USBUtils.toByte(Integer.decode(str[i]));
@@ -196,7 +197,7 @@ public abstract class AbstractUSBHIDService extends Service {
 		}
 
 		private void setDevice(Intent intent) {
-			device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+			device = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
 			if (device != null && intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
 				onDeviceSelected(device);
 				connection = mUsbManager.openDevice(device);

@@ -1,17 +1,18 @@
-package com.appspot.usbhidterminal.core.services;
+package com.easync.usbsettool.core.services;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.hardware.usb.UsbDevice;
-import androidx.core.app.NotificationCompat;
 
-import com.appspot.usbhidterminal.R;
-import com.appspot.usbhidterminal.USBHIDTerminal;
-import com.appspot.usbhidterminal.core.Consts;
-import com.appspot.usbhidterminal.core.USBUtils;
-import com.appspot.usbhidterminal.core.events.LogMessageEvent;
-import com.appspot.usbhidterminal.core.events.USBDataReceiveEvent;
+import com.easync.usbsettool.R;
+import com.easync.usbsettool.USBHIDTerminal;
+import com.easync.usbsettool.core.Consts;
+import com.easync.usbsettool.core.USBUtils;
+import com.easync.usbsettool.core.events.LogMessageEvent;
+import com.easync.usbsettool.core.events.USBDataReceiveEvent;
+
+import androidx.core.app.NotificationCompat;
 
 public class USBHIDService extends AbstractUSBHIDService {
 
@@ -84,8 +85,8 @@ public class USBHIDService extends AbstractUSBHIDService {
 		if (receiveDataFormat.equals(Consts.INTEGER)) {
 			for (; i < 60; i++) {
 				if (buffer[i] == 0){stringBuilder.append(delimiter).append("00");}
-				else if (buffer[i] < 10){stringBuilder.append(delimiter).append("0"+ USBUtils.toInt(buffer[i]));}
-				else stringBuilder.append(delimiter).append(USBUtils.toInt(buffer[i]));
+				else if (buffer[i] < 10){stringBuilder.append(delimiter).append("0"+String.valueOf(USBUtils.toInt(buffer[i])));}
+				else stringBuilder.append(delimiter).append(String.valueOf(USBUtils.toInt(buffer[i])));
 			}
 		}
 		eventBus.post(new USBDataReceiveEvent(stringBuilder.toString(), i));

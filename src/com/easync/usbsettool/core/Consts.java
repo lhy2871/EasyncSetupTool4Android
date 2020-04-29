@@ -1,4 +1,4 @@
-package com.appspot.usbhidterminal.core;
+package com.easync.usbsettool.core;
 
 public abstract class Consts {
 	public static final String BINARY = "二进制";

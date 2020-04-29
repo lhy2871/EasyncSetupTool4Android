@@ -1,4 +1,4 @@
-package com.appspot.usbhidterminal;
+package com.easync.usbsettool;
 
 import android.annotation.TargetApi;
 import android.content.Context;

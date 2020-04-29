@@ -1,4 +1,4 @@
-package com.appspot.usbhidterminal.core.events;
+package com.easync.usbsettool.core.events;
 
 public class USBDataReceiveEvent {
     private final String data;

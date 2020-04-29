@@ -1,4 +1,4 @@
-package com.appspot.usbhidterminal;
+package com.easync.usbsettool;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,26 +15,21 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.appspot.usbhidterminal.core.Consts;
-import com.appspot.usbhidterminal.core.events.DeviceAttachedEvent;
-import com.appspot.usbhidterminal.core.events.DeviceDetachedEvent;
-import com.appspot.usbhidterminal.core.events.LogMessageEvent;
-import com.appspot.usbhidterminal.core.events.PrepareDevicesListEvent;
-import com.appspot.usbhidterminal.core.events.SelectDeviceEvent;
-import com.appspot.usbhidterminal.core.events.ShowDevicesListEvent;
-import com.appspot.usbhidterminal.core.events.USBDataReceiveEvent;
-import com.appspot.usbhidterminal.core.events.USBDataSendEvent;
-import com.appspot.usbhidterminal.core.services.USBHIDService;
+import com.easync.usbsettool.core.Consts;
+import com.easync.usbsettool.core.events.LogMessageEvent;
+import com.easync.usbsettool.core.events.PrepareDevicesListEvent;
+import com.easync.usbsettool.core.events.SelectDeviceEvent;
+import com.easync.usbsettool.core.events.ShowDevicesListEvent;
+import com.easync.usbsettool.core.events.USBDataReceiveEvent;
+import com.easync.usbsettool.core.events.USBDataSendEvent;
+import com.easync.usbsettool.core.services.USBHIDService;
+
+import java.util.Calendar;
 
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.EventBusException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
-import static com.appspot.usbhidterminal.R.id.timeView;
 
 
 public class USBHIDTerminal extends Activity implements View.OnClickListener {
@@ -94,27 +89,27 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 		//btnSend = (Button) findViewById(R.id.btnSend);
 		//btnSend.setOnClickListener(this);
 
-		btnSelectHIDDevice = findViewById(R.id.btnSelectHIDDevice);
+		btnSelectHIDDevice = (Button) findViewById(R.id.btnSelectHIDDevice);
 		btnSelectHIDDevice.setOnClickListener(this);
 
 		//btnClear = (Button) findViewById(R.id.btnClear);
 		//btnClear.setOnClickListener(this);
 
-		button_2397 = findViewById(R.id.button_2397);
+		button_2397 = (Button) findViewById(R.id.button_2397);
 		button_2397.setOnClickListener(this);
-		button_24 = findViewById(R.id.button_24);
+		button_24 = (Button) findViewById(R.id.button_24);
 		button_24.setOnClickListener(this);
-		button_25 = findViewById(R.id.button_25);
+		button_25 = (Button) findViewById(R.id.button_25);
 		button_25.setOnClickListener(this);
-		button_RTC = findViewById(R.id.button_RTC);
+		button_RTC = (Button) findViewById(R.id.button_RTC);
 		button_RTC.setOnClickListener(this);
-		button_f0 = findViewById(R.id.button_f0);
+		button_f0 = (Button) findViewById(R.id.button_f0);
 		button_f0.setOnClickListener(this);
 
 		//edtxtHidInput = (EditText) findViewById(R.id.edtxtHidInput);
-		edtlogText = findViewById(R.id.edtlogText);
-		powerlog = findViewById(R.id.powerlog);
-		timeView = findViewById(R.id.timeView);
+		edtlogText = (EditText) findViewById(R.id.edtlogText);
+		powerlog = (EditText) findViewById(R.id.powerlog);
+		timeView = (TextView) findViewById(R.id.timeView);
 		//editTextTip = (EditText) findViewById(R.id.editTextTip);
 
 		//rbSendDataType = (RadioButton) findViewById(R.id.rbSendData);
@@ -210,7 +205,7 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 
 	}
 
-	void showListOfDevices(CharSequence[] devicesName) {
+	void showListOfDevices(CharSequence devicesName[]) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 		if (devicesName.length == 0) {
@@ -244,7 +239,7 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 				powerlog(powerpercent + " %",true);
 			}
 		} else if (Integer.parseInt(e.substring(11,15)) == 129) {
-			String[] tmp = null;
+			String tmp[] = null;
 			tmp = e.split(" ");
 			//fps = tmp[47];
 			if (Integer.parseInt(tmp[47]) == 0 ) {fps = "24";}

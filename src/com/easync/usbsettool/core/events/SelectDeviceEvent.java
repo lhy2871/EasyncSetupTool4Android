@@ -1,4 +1,4 @@
-package com.appspot.usbhidterminal.core.events;
+package com.easync.usbsettool.core.events;
 
 public class SelectDeviceEvent {
     private int device;

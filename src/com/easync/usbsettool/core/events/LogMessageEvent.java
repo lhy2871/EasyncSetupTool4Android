@@ -1,14 +1,14 @@
-package com.appspot.usbhidterminal.core.events;
+package com.easync.usbsettool.core.events;
 
-public class USBDataSendEvent {
+public class LogMessageEvent {
+
     private final String data;
 
-    public USBDataSendEvent(String data) {
+    public LogMessageEvent(String data) {
         this.data = data;
     }
 
     public String getData() {
         return data;
     }
-
 }
