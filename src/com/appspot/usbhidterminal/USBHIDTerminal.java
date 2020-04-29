@@ -94,27 +94,27 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 		//btnSend = (Button) findViewById(R.id.btnSend);
 		//btnSend.setOnClickListener(this);
 
-		btnSelectHIDDevice = (Button) findViewById(R.id.btnSelectHIDDevice);
+		btnSelectHIDDevice = findViewById(R.id.btnSelectHIDDevice);
 		btnSelectHIDDevice.setOnClickListener(this);
 
 		//btnClear = (Button) findViewById(R.id.btnClear);
 		//btnClear.setOnClickListener(this);
 
-		button_2397 = (Button) findViewById(R.id.button_2397);
+		button_2397 = findViewById(R.id.button_2397);
 		button_2397.setOnClickListener(this);
-		button_24 = (Button) findViewById(R.id.button_24);
+		button_24 = findViewById(R.id.button_24);
 		button_24.setOnClickListener(this);
-		button_25 = (Button) findViewById(R.id.button_25);
+		button_25 = findViewById(R.id.button_25);
 		button_25.setOnClickListener(this);
-		button_RTC = (Button) findViewById(R.id.button_RTC);
+		button_RTC = findViewById(R.id.button_RTC);
 		button_RTC.setOnClickListener(this);
-		button_f0 = (Button) findViewById(R.id.button_f0);
+		button_f0 = findViewById(R.id.button_f0);
 		button_f0.setOnClickListener(this);
 
 		//edtxtHidInput = (EditText) findViewById(R.id.edtxtHidInput);
-		edtlogText = (EditText) findViewById(R.id.edtlogText);
-		powerlog = (EditText) findViewById(R.id.powerlog);
-		timeView = (TextView) findViewById(R.id.timeView);
+		edtlogText = findViewById(R.id.edtlogText);
+		powerlog = findViewById(R.id.powerlog);
+		timeView = findViewById(R.id.timeView);
 		//editTextTip = (EditText) findViewById(R.id.editTextTip);
 
 		//rbSendDataType = (RadioButton) findViewById(R.id.rbSendData);

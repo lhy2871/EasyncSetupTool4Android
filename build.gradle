@@ -1,14 +1,17 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
+        google()
+        // google()
+        // jcenter()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.6.3'
     }
 }
 
@@ -16,17 +19,20 @@ apply plugin: 'com.android.application'
 
 repositories {
     mavenCentral()
-    maven {
-        url 'https://maven.google.com/'
-        name 'Google'
-    }
+    maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+    maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter' }
+    maven { url 'https://maven.aliyun.com/nexus/content/repositories/google' }
+    maven { url 'https://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
+    google()
+    // google()
+    // jcenter()
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:22.2.1'
-    compile 'com.nanohttpd:nanohttpd:2.1.1'
-    compile 'de.greenrobot:eventbus:2.4.0'
-    compile 'com.google.android.gms:play-services-auth:18.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.nanohttpd:nanohttpd:2.1.1'
+    implementation 'de.greenrobot:eventbus:2.4.0'
+    implementation 'com.google.android.gms:play-services-auth:18.0.0'
 }
 
 android {
@@ -38,11 +44,11 @@ android {
     lintOptions {
         abortOnError false
     }
-    compileSdkVersion 22
-    buildToolsVersion '22.0.1'
+    compileSdkVersion 29
+    buildToolsVersion '28.0.3'
     defaultConfig {
         minSdkVersion 22
-        targetSdkVersion 22
+        targetSdkVersion 29
     }
     sourceSets {
         main {
