@@ -5,7 +5,7 @@
     android:layout_gravity="top|left"
     android:orientation="vertical"
     android:windowSoftInputMode="stateHidden"
-    tools:context=".easyncsetuptools" >
+    tools:context=".easyncsetuptools">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,8 +26,8 @@
                 android:id="@+id/btnSelectHIDDevice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minHeight="36dip"
                 android:minWidth="50dip"
+                android:minHeight="36dip"
                 android:text="@string/selectHIDDevice"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse" />
 
@@ -53,8 +53,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:minHeight="36dip"
                 android:minWidth="50dip"
+                android:minHeight="36dip"
                 android:text="23.97fps"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:visibility="invisible" />
@@ -64,8 +64,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:minHeight="36dip"
                 android:minWidth="50dip"
+                android:minHeight="36dip"
                 android:text="24fps"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:visibility="visible" />
@@ -75,8 +75,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:minHeight="36dip"
                 android:minWidth="50dip"
+                android:minHeight="36dip"
                 android:text="25fps"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:visibility="visible" />
@@ -94,8 +94,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:minHeight="36dip"
                 android:minWidth="50dip"
+                android:minHeight="36dip"
                 android:text="当前时间"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse" />
 
@@ -104,8 +104,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:minHeight="36dip"
                 android:minWidth="50dip"
+                android:minHeight="36dip"
                 android:text="从零开始"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse" />
 
@@ -128,11 +128,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:inputType="textMultiLine"
                 android:singleLine="true"
-                android:focusable="false"
-                android:cursorVisible="false"
-                android:focusableInTouchMode="false"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:visibility="visible">
 
@@ -156,11 +156,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:inputType="textMultiLine"
                 android:singleLine="true"
-                android:focusable="false"
-                android:cursorVisible="false"
-                android:focusableInTouchMode="false"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:visibility="visible">
 
@@ -275,7 +275,7 @@
             android:id="@+id/textViewName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Powerd by 习文 @2017-07-14"
+            android:text="Powerd by 习文 @2024-07-1"
             android:textColor="@android:color/darker_gray"
             android:textSize="18sp" />
 
@@ -292,7 +292,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autoLink="phone"
-            android:text="18801218286"
             android:textAlignment="viewStart"
             android:textColor="@android:color/darker_gray"
             android:textSize="18sp" />

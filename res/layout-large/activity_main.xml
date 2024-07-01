@@ -275,7 +275,7 @@
             android:id="@+id/textViewName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Powerd by 习文 @2017-07-14"
+            android:text="Powerd by 习文 @2024-07-1"
             android:textColor="@android:color/darker_gray"
             android:textSize="18sp" />
 
@@ -292,7 +292,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autoLink="phone"
-            android:text="18801218286"
             android:textAlignment="viewStart"
             android:textColor="@android:color/darker_gray"
             android:textSize="18sp" />
