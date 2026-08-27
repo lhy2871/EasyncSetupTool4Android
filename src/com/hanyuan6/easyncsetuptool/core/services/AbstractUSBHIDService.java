@@ -12,8 +12,10 @@ import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbEndpoint;
 import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.util.Log;
 
 import com.hanyuan6.easyncsetuptool.core.Consts;
@@ -36,7 +38,7 @@ public abstract class AbstractUSBHIDService extends Service {
 
 	private USBThreadDataReceiver usbThreadDataReceiver;
 
-	private final Handler uiHandler = new Handler();
+	private final Handler uiHandler = new Handler(Looper.getMainLooper());
 
 	private UsbManager mUsbManager;
 	private UsbInterface intf;
@@ -67,7 +69,11 @@ public abstract class AbstractUSBHIDService extends Service {
 		filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
 		filter.addAction(Consts.ACTION_USB_SHOW_DEVICES_LIST);
 		filter.addAction(Consts.ACTION_USB_DATA_TYPE);
-		registerReceiver(mUsbReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+			registerReceiver(mUsbReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
+		} else {
+			registerReceiver(mUsbReceiver, filter);
+		}
 		eventBus.register(this);
 	}
 
@@ -197,7 +203,11 @@ public abstract class AbstractUSBHIDService extends Service {
 		}
 
 		private void setDevice(Intent intent) {
-			device = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+				device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE, UsbDevice.class);
+			} else {
+				device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+			}
 			if (device != null && intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
 				onDeviceSelected(device);
 				connection = mUsbManager.openDevice(device);

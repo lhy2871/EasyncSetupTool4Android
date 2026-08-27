@@ -1,9 +1,13 @@
 package com.hanyuan6.easyncsetuptool.core.services;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ServiceInfo;
 import android.hardware.usb.UsbDevice;
+import android.os.Build;
 
 import com.hanyuan6.easyncsetuptool.R;
 import com.hanyuan6.easyncsetuptool.USBHIDTerminal;
@@ -97,18 +101,26 @@ public class USBHIDService extends AbstractUSBHIDService {
 	}
 
 	private void setupNotifications() { //called in onCreate()
-		NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		NotificationCompat.Builder mNotificationBuilder = new NotificationCompat.Builder(this);
+		String channelId = "usb_hid_service_channel";
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			NotificationChannel channel = new NotificationChannel(channelId, "USB HID Service", NotificationManager.IMPORTANCE_LOW);
+			NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			if (manager != null) {
+				manager.createNotificationChannel(channel);
+			}
+		}
+
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
 				new Intent(this, USBHIDTerminal.class)
 						.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP),
-                PendingIntent.FLAG_IMMUTABLE);
+				PendingIntent.FLAG_IMMUTABLE);
 		PendingIntent pendingCloseIntent = PendingIntent.getActivity(this, 0,
 				new Intent(this, USBHIDTerminal.class)
 						.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP)
 						.setAction(Consts.USB_HID_TERMINAL_CLOSE_ACTION),
-                PendingIntent.FLAG_IMMUTABLE);
-		mNotificationBuilder
+				PendingIntent.FLAG_IMMUTABLE);
+
+		NotificationCompat.Builder mNotificationBuilder = new NotificationCompat.Builder(this, channelId)
 				.setSmallIcon(R.drawable.ic_launcher)
 				.setCategory(NotificationCompat.CATEGORY_SERVICE)
 				.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -117,12 +129,14 @@ public class USBHIDService extends AbstractUSBHIDService {
 				.setContentIntent(pendingIntent)
 				.addAction(android.R.drawable.ic_menu_close_clear_cancel,
 						getString(R.string.action_exit), pendingCloseIntent)
-				.setOngoing(true);
-		mNotificationBuilder
+				.setOngoing(true)
 				.setTicker(getText(R.string.app_name))
 				.setContentText(getText(R.string.app_name));
-		if (mNotificationManager != null) {
-			mNotificationManager.notify(Consts.USB_HID_TERMINAL_NOTIFICATION, mNotificationBuilder.build());
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+			startForeground(Consts.USB_HID_TERMINAL_NOTIFICATION, mNotificationBuilder.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_CONNECTED_DEVICE);
+		} else {
+			startForeground(Consts.USB_HID_TERMINAL_NOTIFICATION, mNotificationBuilder.build());
 		}
 	}
 
