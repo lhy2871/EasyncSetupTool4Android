@@ -1,13 +1,19 @@
 package com.hanyuan6.easyncsetuptool;
 
-import android.app.Activity;
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,10 +35,11 @@ import com.hanyuan6.easyncsetuptool.core.services.USBHIDService;
 import java.util.Calendar;
 
 import de.greenrobot.event.EventBus;
-import de.greenrobot.event.EventBusException;
+// Removed EventBusException as it's no longer used
 
 
-public class USBHIDTerminal extends Activity implements View.OnClickListener {
+
+public class USBHIDTerminal extends AppCompatActivity implements View.OnClickListener {
 
 	private SharedPreferences sharedPreferences;
 
@@ -66,6 +73,10 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 
 	protected EventBus eventBus;
 
+	private final ActivityResultLauncher<Intent> settingsLauncher =
+			registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+			});
+
 	private void prepareServices() {
 		usbService = new Intent(this, USBHIDService.class);
 		startService(usbService);
@@ -75,13 +86,17 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		try {
-			eventBus = EventBus.builder().logNoSubscriberMessages(false).sendNoSubscriberEvent(false).installDefaultEventBus();
-		} catch (EventBusException e) {
-			eventBus = EventBus.getDefault();
-		}
+		
+		eventBus = EventBus.getDefault();
+		
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		initUI();
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+			if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+				ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+			}
+		}
 	}
 
 	private void initUI() {
@@ -226,32 +241,46 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 	}
 
 	public void onEvent(USBDataReceiveEvent event) {
-		//mLog(event.getData() + " \n接收到 " + event.getBytesCount() + " 位", true);
 		String e = event.getData();
-		if (Integer.parseInt(e.substring(11,15)) == 132) {
-			String[] tmp = null;
-			tmp = e.substring(16,21).split(" ");
-			int powerpercent = (Integer.parseInt(tmp[0]) * 256 + Integer.parseInt(tmp[1])) * 825 / 512;
-			if (powerpercent > 4200) { powerlog("100 %",true); }
-			else if (powerpercent < 3600) { powerlog("0 %",true); }
-			else {
-				powerpercent = (powerpercent - 3600) / 6;
-				powerlog(powerpercent + " %",true);
+		if (e == null || e.trim().isEmpty()) {
+			return;
+		}
+
+		String[] parts = e.trim().split("\\s+");
+		if (parts.length < 4) {
+			return;
+		}
+
+		try {
+			int type = Integer.parseInt(parts[3]); // Assuming Byte 4 is the type identifier
+			if (type == 132) {
+				if (parts.length >= 6) {
+					int p1 = Integer.parseInt(parts[5]);
+					int p2 = Integer.parseInt(parts[6]);
+					int powerpercent = (p1 * 256 + p2) * 825 / 512;
+					if (powerpercent > 4200) { powerlog("100 %", true); }
+					else if (powerpercent < 3600) { powerlog("0 %", true); }
+					else {
+						powerpercent = (powerpercent - 3600) / 6;
+						powerlog(powerpercent + " %", true);
+					}
+				}
+			} else if (type == 129) {
+				if (parts.length > 47) {
+					int fpsVal = Integer.parseInt(parts[47]);
+					if (fpsVal == 0) { fps = "24"; }
+					else if (fpsVal == 1) { fps = "25"; }
+				}
+			} else {
+				// Original logic was e = e.substring(16, 27);
+				// Let's assume this was bytes 5, 6, 7, 8
+				if (parts.length >= 9) {
+					String timeStr = parts[5] + ": " + parts[6] + ": " + parts[7] + ": " + parts[8] + " @ " + fps + " fps";
+					mLog(timeStr, true);
+				}
 			}
-		} else if (Integer.parseInt(e.substring(11,15)) == 129) {
-			String tmp[] = null;
-			tmp = e.split(" ");
-			//fps = tmp[47];
-			if (Integer.parseInt(tmp[47]) == 0 ) {fps = "24";}
-			else if (Integer.parseInt(tmp[47]) == 1 ) {fps = "25";}
-			//if (Integer.parseInt(tmp[47]) == 2 ) {fps = "23.976";}
-			//else fps = tmp[47];
-		} else {
-			e = e.substring(16, 27);
-			String[] tmp = null;
-			tmp = e.split(" ");
-			e = tmp[0] + ": " + tmp[1] + ": " + tmp[2] + ": " + tmp[3] + " @ " + fps + " fps";
-			if (Integer.parseInt(tmp[0]) < 25 && Integer.parseInt(tmp[1]) < 61 && Integer.parseInt(tmp[2]) < 61) mLog(e,true);
+		} catch (Exception ex) {
+			// Ignore malformed packets
 		}
 	}
 
@@ -316,7 +345,7 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 		switch (item.getItemId()) {
 			case R.id.menuSettings:
 			Intent i = new Intent(this, SettingsActivity.class);
-			startActivityForResult(i, Consts.RESULT_SETTINGS);
+			settingsLauncher.launch(i);
 			break;
 		case R.id.menuSettingsReceiveBinary:
 			editor.putString(Consts.RECEIVE_DATA_FORMAT, Consts.BINARY).apply();
@@ -373,15 +402,19 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 				delimiter = Consts.SPACE;
 			}
 		}
-		usbService.setAction(Consts.RECEIVE_DATA_FORMAT);
-		usbService.putExtra(Consts.RECEIVE_DATA_FORMAT, receiveDataFormat);
-		usbService.putExtra(Consts.DELIMITER, delimiter);
-		startService(usbService);
+		if (usbService != null) {
+			usbService.setAction(Consts.RECEIVE_DATA_FORMAT);
+			usbService.putExtra(Consts.RECEIVE_DATA_FORMAT, receiveDataFormat);
+			usbService.putExtra(Consts.DELIMITER, delimiter);
+			startService(usbService);
+		}
 	}
 
 	void sendToUSBService(String action) {
-		usbService.setAction(action);
-		startService(usbService);
+		if (usbService != null) {
+			usbService.setAction(action);
+			startService(usbService);
+		}
 	}
 
 	void sendToUSBService(String action, boolean data) {
@@ -416,7 +449,7 @@ public class USBHIDTerminal extends Activity implements View.OnClickListener {
 	private void setVersionToTitle() {
 		try {
 			this.setTitle(Consts.SPACE + this.getTitle() + Consts.SPACE + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
-		} catch (NameNotFoundException e) {
+		} catch (PackageManager.NameNotFoundException e) {
 			e.printStackTrace();
 		}
 	}

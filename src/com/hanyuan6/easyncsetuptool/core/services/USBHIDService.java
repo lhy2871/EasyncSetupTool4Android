@@ -20,13 +20,13 @@ import androidx.core.app.NotificationCompat;
 
 public class USBHIDService extends AbstractUSBHIDService {
 
-	private String delimiter;
-	private String receiveDataFormat;
+	private String delimiter = Consts.SPACE;
+	private String receiveDataFormat = Consts.INTEGER;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		setupNotifications();
+		// setupNotifications() removed from here to prevent SecurityException on startup
 	}
 
 	@Override
@@ -56,6 +56,7 @@ public class USBHIDService extends AbstractUSBHIDService {
 		//mLog("Selected device VID:" + Integer.toHexString(device.getVendorId()) + " PID:" + Integer.toHexString(device.getProductId()));
 		//mLog("已经选择 Easync @" + device.getDeviceName());
 		//statuslog("已选择 Easync 时码同步器");
+		setupNotifications();
 	}
 
 	@Override
@@ -84,10 +85,13 @@ public class USBHIDService extends AbstractUSBHIDService {
 
 	@Override
 	public void onUSBDataReceive(byte[] buffer) {
+		if (receiveDataFormat == null || buffer == null) {
+			return;
+		}
 		StringBuilder stringBuilder = new StringBuilder();
 		int i = 0;
 		if (receiveDataFormat.equals(Consts.INTEGER)) {
-			for (; i < 60; i++) {
+			for (; i < Math.min(buffer.length, 60); i++) {
 				if (buffer[i] == 0){stringBuilder.append(delimiter).append("00");}
 				else if (buffer[i] < 10){stringBuilder.append(delimiter).append("0"+String.valueOf(USBUtils.toInt(buffer[i])));}
 				else stringBuilder.append(delimiter).append(String.valueOf(USBUtils.toInt(buffer[i])));
