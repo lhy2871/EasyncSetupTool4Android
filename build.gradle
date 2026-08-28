@@ -16,7 +16,7 @@ buildscript {
 apply plugin: 'com.android.application'
 
 ext {
-    compileSdkVersion = 35
+    compileSdkVersion = 37
 }
 
 repositories {
@@ -29,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.8.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.2.1'
     implementation 'com.nanohttpd:nanohttpd:2.2.0'
@@ -56,11 +56,13 @@ android {
         }
     }
     namespace "com.hanyuan6.easyncsetuptool"
-    compileSdkVersion = 35
+    compileSdkVersion = 37
     defaultConfig {
         signingConfig signingConfigs.HanyuanLiu
         minSdkVersion 24
-        targetSdkVersion 35
+        targetSdkVersion 37
+        versionCode 2026
+        versionName "2026"
     }
     sourceSets {
         main {

@@ -12,11 +12,13 @@ import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbEndpoint;
 import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
-import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
+
+import androidx.core.content.ContextCompat;
+import androidx.core.content.IntentCompat;
 
 import com.hanyuan6.easyncsetuptool.core.Consts;
 import com.hanyuan6.easyncsetuptool.core.USBUtils;
@@ -69,19 +71,19 @@ public abstract class AbstractUSBHIDService extends Service {
 		filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
 		filter.addAction(Consts.ACTION_USB_SHOW_DEVICES_LIST);
 		filter.addAction(Consts.ACTION_USB_DATA_TYPE);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-			registerReceiver(mUsbReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
-		} else {
-			registerReceiver(mUsbReceiver, filter);
-		}
+		ContextCompat.registerReceiver(this, mUsbReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED);
 		eventBus.register(this);
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		String action = intent.getAction();
-		if (Consts.ACTION_USB_DATA_TYPE.equals(action)) {
-			sendedDataType = intent.getBooleanExtra(Consts.ACTION_USB_DATA_TYPE, false);
+		if (action != null) {
+			switch (action) {
+				case Consts.ACTION_USB_DATA_TYPE:
+					sendedDataType = intent.getBooleanExtra(Consts.ACTION_USB_DATA_TYPE, false);
+					break;
+			}
 		}
 		onCommand(intent, action, flags, startId);
 		return START_REDELIVER_INTENT;
@@ -203,11 +205,7 @@ public abstract class AbstractUSBHIDService extends Service {
 		}
 
 		private void setDevice(Intent intent) {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-				device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE, UsbDevice.class);
-			} else {
-				device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
-			}
+			device = IntentCompat.getParcelableExtra(intent, UsbManager.EXTRA_DEVICE, UsbDevice.class);
 			if (device != null && intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
 				onDeviceSelected(device);
 				connection = mUsbManager.openDevice(device);

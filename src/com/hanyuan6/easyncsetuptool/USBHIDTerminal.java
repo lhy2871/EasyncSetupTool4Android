@@ -342,32 +342,24 @@ public class USBHIDTerminal extends AppCompatActivity implements View.OnClickLis
 	public boolean onOptionsItemSelected(MenuItem item) {
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		item.setChecked(true);
-		switch (item.getItemId()) {
-			case R.id.menuSettings:
+		int itemId = item.getItemId();
+		if (itemId == R.id.menuSettings) {
 			Intent i = new Intent(this, SettingsActivity.class);
 			settingsLauncher.launch(i);
-			break;
-		case R.id.menuSettingsReceiveBinary:
+		} else if (itemId == R.id.menuSettingsReceiveBinary) {
 			editor.putString(Consts.RECEIVE_DATA_FORMAT, Consts.BINARY).apply();
-			break;
-		case R.id.menuSettingsReceiveInteger:
+		} else if (itemId == R.id.menuSettingsReceiveInteger) {
 			editor.putString(Consts.RECEIVE_DATA_FORMAT, Consts.INTEGER).apply();
-			break;
-		case R.id.menuSettingsReceiveHexadecimal:
+		} else if (itemId == R.id.menuSettingsReceiveHexadecimal) {
 			editor.putString(Consts.RECEIVE_DATA_FORMAT, Consts.HEXADECIMAL).apply();
-			break;
-		case R.id.menuSettingsReceiveText:
+		} else if (itemId == R.id.menuSettingsReceiveText) {
 			editor.putString(Consts.RECEIVE_DATA_FORMAT, Consts.TEXT).apply();
-			break;
-		case R.id.menuSettingsDelimiterNone:
+		} else if (itemId == R.id.menuSettingsDelimiterNone) {
 			editor.putString(Consts.DELIMITER, Consts.DELIMITER_NONE).apply();
-			break;
-		case R.id.menuSettingsDelimiterNewLine:
+		} else if (itemId == R.id.menuSettingsDelimiterNewLine) {
 			editor.putString(Consts.DELIMITER, Consts.DELIMITER_NEW_LINE).apply();
-			break;
-		case R.id.menuSettingsDelimiterSpace:
+		} else if (itemId == R.id.menuSettingsDelimiterSpace) {
 			editor.putString(Consts.DELIMITER, Consts.DELIMITER_SPACE).apply();
-			break;
 		}
 
 		receiveDataFormat = sharedPreferences.getString(Consts.RECEIVE_DATA_FORMAT, Consts.INTEGER);
