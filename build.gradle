@@ -61,8 +61,8 @@ android {
         signingConfig signingConfigs.HanyuanLiu
         minSdkVersion 24
         targetSdkVersion 37
-        versionCode 2026
-        versionName "2026"
+        versionCode 2026-1
+        versionName "2026.1"
     }
     sourceSets {
         main {
