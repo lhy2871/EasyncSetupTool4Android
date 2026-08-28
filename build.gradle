@@ -50,7 +50,6 @@ android {
     namespace "com.hanyuan6.easyncsetuptool"
     compileSdkVersion = 37
     defaultConfig {
-//        signingConfig signingConfigs.HanyuanLiu
         minSdkVersion 24
         targetSdkVersion 37
         versionCode 20260828
