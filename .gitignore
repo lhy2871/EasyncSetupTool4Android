@@ -1,12 +1,13 @@
 /build/
+/.artifacts/
 .idea
 .gradle
-/gradle/
 *.iml
 *.bin
 *.lock
 *~*
 *.swp
 .travis.yml
-/.artifacts/
 .local.properties
+/release/
+/gradle/
